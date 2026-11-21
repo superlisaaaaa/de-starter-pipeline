@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: One row per customer with their contract.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+
+  - name: fct_daily_consumption
+    description: Valid daily kWh per contract. Built incrementally.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["contract_id", "reading_date"]
+    columns:
+      - name: kwh
+        data_tests: [not_null]
+
+  - name: mart_consumption_by_country
+    description: kWh summary by country and signup channel, for dashboards.

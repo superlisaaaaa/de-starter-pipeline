@@ -1,0 +1,20 @@
+# dbt project settings. dbt turns SELECT statements into tables and views,
+# in the right order, and tests them.
+name: nordlys
+version: "1.0.0"
+config-version: 2
+profile: nordlys
+
+model-paths: ["models"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  nordlys:
+    staging:            # silver layer: cleaned, typed, one row per entity
+      +schema: silver
+      +materialized: view
+    marts:              # gold layer: business-ready tables for dashboards
+      +schema: gold
+      +materialized: table

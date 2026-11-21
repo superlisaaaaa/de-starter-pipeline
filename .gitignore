@@ -1,0 +1,14 @@
+# Files Git should NOT track: generated, local or secret.
+# The warehouse is rebuilt by the pipeline, so we never commit it.
+*.duckdb
+*.duckdb.wal
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+logs/
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+.env
+.DS_Store

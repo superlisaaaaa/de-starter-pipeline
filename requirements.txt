@@ -1,0 +1,5 @@
+# Exact versions = everyone (you, CI, a colleague) runs the same code.
+duckdb==2.0.1
+dbt-duckdb==1.11.1
+pytest==9.1.1
+sqlfluff==4.5.0

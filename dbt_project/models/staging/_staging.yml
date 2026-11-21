@@ -1,0 +1,47 @@
+version: 2
+
+# Data tests run with `dbt build` or `dbt test`. If one fails, CI turns red.
+models:
+  - name: stg_customers
+    description: Latest version of each customer.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: country
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["SE", "NO", "FI"]
+      - name: signup_channel
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["digital", "phone", "partner"]
+
+  - name: stg_contracts
+    description: One row per contract.
+    columns:
+      - name: contract_id
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+
+  - name: stg_meter_readings
+    description: One row per contract per day, with a validity flag.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["contract_id", "reading_date"]
+    columns:
+      - name: contract_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_contracts')
+                field: contract_id

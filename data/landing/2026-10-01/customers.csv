@@ -1,0 +1,16 @@
+customer_id,first_name,email,country,signup_channel,updated_at
+C001,Alva,alva@example.com,FI,digital,2026-10-01T06:00:00
+C002,Noah,noah@example.com,SE,partner,2026-10-01T06:00:00
+C003,Ella,ella@example.com,NO,digital,2026-10-01T06:00:00
+C004,Liam,liam@example.com,SE,digital,2026-10-01T06:00:00
+C005,Saga,saga@example.com,FI,digital,2026-10-01T06:00:00
+C006,Oskar,oskar@example.com,FI,partner,2026-10-01T06:00:00
+C007,Maja,maja@example.com,FI,digital,2026-10-01T06:00:00
+C008,Elias,elias@example.com,FI,phone,2026-10-01T06:00:00
+C009,Freja,freja@example.com,SE,digital,2026-10-01T06:00:00
+C010,Hugo,hugo@example.com,SE,digital,2026-10-01T06:00:00
+C011,Ingrid,ingrid@example.com,SE,partner,2026-10-01T06:00:00
+C012,Emil,emil@example.com,FI,digital,2026-10-01T06:00:00
+C013,Sofia,sofia@example.com,FI,digital,2026-10-01T06:00:00
+C014,Lukas,lukas@example.com,FI,partner,2026-10-01T06:00:00
+C015,Nora,nora@example.com,FI,partner,2026-10-01T06:00:00

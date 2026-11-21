@@ -1,0 +1,11 @@
+version: 2
+
+# Sources = the raw bronze tables our Python loader created.
+# Declaring them lets dbt draw the lineage graph and check freshness.
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: customers
+      - name: contracts
+      - name: meter_readings

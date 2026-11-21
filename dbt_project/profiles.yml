@@ -1,0 +1,9 @@
+# How dbt connects to the warehouse. The path comes from an environment
+# variable so CI can use its own database file. No passwords needed for DuckDB.
+nordlys:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '../warehouse.duckdb') }}"
+      threads: 4

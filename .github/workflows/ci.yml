@@ -1,0 +1,63 @@
+# ============================================================================
+# CI = Continuous Integration
+# Runs automatically on every pull request. Its job: answer the question
+# "Is it safe to merge this change into main?"
+# If any step fails, the PR shows a red X and you fix it before merging.
+# ============================================================================
+name: CI
+
+on:
+  pull_request:          # every time a PR is opened or a new commit is pushed to it
+    branches: [main]
+  workflow_dispatch:     # adds a "Run workflow" button in the Actions tab
+
+jobs:
+  # ---------------------------------------------------------------- stage 1
+  lint-and-unit-test:
+    name: Lint SQL + Python unit tests
+    runs-on: ubuntu-latest           # GitHub gives us a fresh Linux machine
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip                 # re-use downloaded packages between runs
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check SQL style (sqlfluff)
+        run: sqlfluff lint dbt_project/models dbt_project/tests
+
+      - name: Run Python unit tests (pytest)
+        run: pytest -v
+
+  # ---------------------------------------------------------------- stage 2
+  build-and-test-data:
+    name: Run pipeline + dbt data tests
+    needs: lint-and-unit-test        # only starts if stage 1 passed
+    runs-on: ubuntu-latest
+    env:
+      DUCKDB_PATH: ${{ github.workspace }}/ci_warehouse.duckdb   # a throw-away CI database
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Extract + load raw files (bronze)
+        run: python -m pipeline.extract_load
+
+      - name: Load again to prove the load is idempotent
+        run: python -m pipeline.extract_load
+
+      - name: Build models and run data tests (silver + gold)
+        working-directory: dbt_project
+        run: dbt build --profiles-dir .
