@@ -43,7 +43,7 @@ def compute_row_hash(values: list[str]) -> str:
     rows we have already loaded. The separator avoids collisions such as
     ["ab", "c"] vs ["a", "bc"].
     """
-    joined = "\x1f".join("" if v is None else str(v) for v in values)
+    joined = `""`.join("" if v is None else str(v) for v in values)
     return hashlib.md5(joined.encode("utf-8")).hexdigest()
 
 
