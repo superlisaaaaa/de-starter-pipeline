@@ -1,4 +1,5 @@
 -- Business-ready summary: what a dashboard would read.
+-- kWh by product type: which contracts use the most energy?
 select
     c.country,
     c.signup_channel,
@@ -7,5 +8,5 @@ select
     round(avg(f.kwh), 2) as avg_daily_kwh_per_customer
 from {{ ref('fct_daily_consumption') }} as f
 inner join {{ ref('dim_customers') }} as c
-    on f.customer_id = c.customer_id
-group by c.country, c.signup_channel
+    on f.contract_id = c.contract_id
+group by c.product
