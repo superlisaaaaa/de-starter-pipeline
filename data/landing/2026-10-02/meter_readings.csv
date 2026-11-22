@@ -1,4 +1,4 @@
-contract_id,reading_date,kwh_value
+contract_id,reading_date,kwh
 K001,2026-10-01,27.75
 K002,2026-10-01,38.09
 K003,2026-10-01,9.94
