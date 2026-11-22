@@ -25,6 +25,6 @@ select
     contract_id,
     reading_date,
     kwh,
-    kwh >= 0 as is_valid
+    true as is_valid
 from deduplicated
 where version_rank = 1
